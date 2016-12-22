@@ -14,6 +14,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+// var eventsRecommended = require('./EventsRecommended.js');
+var emails = require('./emails-db.js');
 
 // // This is my data (one day it will come from database)
 // let items = [
@@ -25,17 +27,18 @@ app.get('/', (req, res) => {
 
 // // *** REST API ***
 
-// // LIST
-// app.get('/item', (req, res) => {
-//   res.json(items)
-// })
+// LIST
+app.get('/email', (req, res) => {
+  res.json(emails)
+})
 
 // // READ
-// app.get('/item/:id', (req, res) => {
-//   const id = +req.params.id;
-//   const item = items.find(currItem => currItem.id === id);
-//   res.json(item)
-// })
+app.get('/email/:id', (req, res) => {
+  const id = +req.params.id;
+  console.log('emails', emails);
+  const email = emails.filter(currItem => currItem.id === id);
+  res.json(email)
+})
 
 // // DELETE
 // app.delete('/item/:id', (req, res) => {
