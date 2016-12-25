@@ -15,37 +15,11 @@ var emails = require('./emails-db.js');
 var myEvents = require('./events-db.js');
 
 app.get('/', (req, res) => {
-  res.send('Hello World!' , myEvents)
+  res.send('Hello World!')
 })
 
 
 // // *** REST API ***
-
-// LIST
-app.get('/email', (req, res) => {
-  res.json(emails)
-})
-app.get('/events', (req, res) => {
-  console.log('hello');
-  res.json(myEvents)
-})
-
-// // READ
-app.get('/email/:id', (req, res) => {
-  const id = +req.params.id;
-  const email = emails.filter(email => email.id === id)[0];
-  console.log('email', email);
-  email.isRead = true;
-  console.log('email', email);
-  res.json(email);
-})
-
-// DELETE
-app.delete('/email/:id', (req, res) => {
-  const id = +req.params.id;
-  emails = emails.filter(currItem => currItem.id !== id)
-  res.json(emails);
-})
 
 // // CREATE
 app.post('/item', (req, res) => {
@@ -53,6 +27,19 @@ app.post('/item', (req, res) => {
   email.id = findNextId();
   emails.push(email);
   res.end('Item was added!');
+})
+
+// // READ
+app.get('/email/:id', (req, res) => {
+  const id = +req.params.id;
+  const email = emails.filter(email => email.id === id)[0];
+  email.isRead = true;
+  res.json(email);
+})
+app.get('/event/:id', (req, res) => {
+  const id = +req.params.id;
+  const event = myEvents.events.filter(event => event.id === id)[0];
+  res.json(event);
 })
 
 // // TODO: UPDATE
@@ -65,3 +52,18 @@ app.post('/item', (req, res) => {
 //     });
 //     return maxId + 1;
 // }
+
+// DELETE
+app.delete('/email/:id', (req, res) => {
+  const id = +req.params.id;
+  emails = emails.filter(currItem => currItem.id !== id)
+  res.json(emails);
+})
+
+// LIST
+app.get('/email', (req, res) => {
+  res.json(emails)
+})
+app.get('/events', (req, res) => {
+  res.json(myEvents)
+})

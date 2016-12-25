@@ -75,7 +75,7 @@ module.exports = {
     },
     {
         "created": 1416703426000,
-        "id": "xdssclyvqbcc",
+        "id": 20681282,
         "name": "she codes(tau) - Weekly HackNight",
         "status": "upcoming",
         "time": 1482336000000,
