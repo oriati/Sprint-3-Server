@@ -23,10 +23,16 @@ app.get('/', (req, res) => {
 
 // // CREATE
 app.post('/item', (req, res) => {
-  const email =  req.body; 
-  email.id = findNextId();
+  const email =  req.body;
+  // email.id = findNextId(emails);
   emails.push(email);
   res.end('Item was added!');
+})
+app.post('/event', (req, res) => {
+  const event =  req.body;
+  event.id = findNextId(myEvents.events);
+  myEvents.events.push(event);
+  res.json({msg: 'Event was added!'});
 })
 
 // // READ
@@ -45,14 +51,28 @@ app.get('/event/:id', (req, res) => {
 
 // // TODO: UPDATE
 
+app.put('/event', (req, res) => {
+  const updatedEvent =  req.body;
+  console.log('editing event!')
+  myEvents.events = myEvents.events.map(event => {
+    if(event.id === updatedEvent.id){
+      return updatedEvent
+    } else {
+      return event
+    }
+  });
+  console.log('finished map!')
+  res.json({msg: 'Event was updated!'});
+})
 
-// function findNextId() {
-//     var maxId = 0;
-//     items.forEach(item => {
-//         if (item.id > maxId) maxId = item.id;
-//     });
-//     return maxId + 1;
-// }
+
+function findNextId(arr) {
+    var maxId = 0;
+    arr.forEach(item => {
+        if (+item.id > maxId) maxId = +item.id;
+    });
+    return maxId + 1;
+}
 
 // DELETE
 app.delete('/email/:id', (req, res) => {
@@ -66,5 +86,6 @@ app.get('/email', (req, res) => {
   res.json(emails)
 })
 app.get('/events', (req, res) => {
-  res.json(myEvents)
+  res.json(myEvents);
+  res.end('Events list');
 })
