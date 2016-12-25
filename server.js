@@ -12,9 +12,10 @@ app.listen(3003, () => {
 
 // var eventsRecommended = require('./EventsRecommended.js');
 var emails = require('./emails-db.js');
+var myEvents = require('./events-db.js');
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World!' , myEvents)
 })
 
 
@@ -23,6 +24,10 @@ app.get('/', (req, res) => {
 // LIST
 app.get('/email', (req, res) => {
   res.json(emails)
+})
+app.get('/events', (req, res) => {
+  console.log('hello');
+  res.json(myEvents)
 })
 
 // // READ
