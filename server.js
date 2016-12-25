@@ -10,20 +10,13 @@ app.listen(3003, () => {
   console.log('REST API listening on port 3003!')
 })
 
+// var eventsRecommended = require('./EventsRecommended.js');
+var emails = require('./emails-db.js');
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-// var eventsRecommended = require('./EventsRecommended.js');
-var emails = require('./emails-db.js');
-
-// // This is my data (one day it will come from database)
-// let items = [
-//     {id: 8,title: 'Mastering SCSS', price: 78, description: 'bla bla'},
-//     {id: 9,title: 'Mastering $', price: 8, description: 'jq bla bla'},
-//     {id: 10,title: 'Mastering $', price: 8, description: 'jq bla bla'},
-//     {id: 15,title: 'Mastering $', price: 8, description: 'jq bla bla'}
-// ];
 
 // // *** REST API ***
 
@@ -35,24 +28,27 @@ app.get('/email', (req, res) => {
 // // READ
 app.get('/email/:id', (req, res) => {
   const id = +req.params.id;
-  console.log('emails', emails);
-  const email = emails.filter(currItem => currItem.id === id);
-  res.json(email)
+  const email = emails.filter(email => email.id === id)[0];
+  console.log('email', email);
+  email.isRead = true;
+  console.log('email', email);
+  res.json(email);
 })
 
-// // DELETE
-// app.delete('/item/:id', (req, res) => {
-//   const id = +req.params.id;
-//   items = items.filter(currItem => currItem.id !== id);
-// })
+// DELETE
+app.delete('/email/:id', (req, res) => {
+  const id = +req.params.id;
+  emails = emails.filter(currItem => currItem.id !== id)
+  res.json(emails);
+})
 
 // // CREATE
-// app.post('/item', (req, res) => {
-//   const item =  req.body; 
-//   item.id = findNextId();
-//   items.push(item);
-//   res.end('Item was added!');
-// })
+app.post('/item', (req, res) => {
+  const email =  req.body; 
+  email.id = findNextId();
+  emails.push(email);
+  res.end('Item was added!');
+})
 
 // // TODO: UPDATE
 
