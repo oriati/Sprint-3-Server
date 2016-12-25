@@ -38,7 +38,8 @@ app.get('/email/:id', (req, res) => {
 })
 app.get('/event/:id', (req, res) => {
   const id = +req.params.id;
-  const event = myEvents.events.filter(event => event.id === id)[0];
+  console.log('hello')
+  const event = myEvents.events.filter(event => event.id == id)[0];
   res.json(event);
 })
 
